@@ -41,11 +41,11 @@ export default function ProductManagement({
   const handleOpenAdd = () => {
     setEditingProduct(null);
     setFormData({
-      id: `PRD-${Date.now().toString().slice(-4)}`,
+      id: '',
       name: '',
-      category: 'Makanan',
+      category: '',
       price: '',
-      stock: '50',
+      stock: '',
       barcode: '',
       imageUrl: ''
     });
@@ -76,7 +76,7 @@ export default function ProductManagement({
     const payload = {
       id: formData.id || `PRD-${Date.now().toString().slice(-4)}`,
       name: formData.name.trim(),
-      category: formData.category,
+      category: formData.category || 'Umum',
       price: Number(formData.price) || 0,
       stock: Number(formData.stock) || 0,
       barcode: formData.barcode.trim(),

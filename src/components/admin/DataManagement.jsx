@@ -53,16 +53,16 @@ export default function DataManagement({
   const [formData, setFormData] = useState({
     name: '',
     barcode: '',
-    category: categories[0]?.name || 'Umum',
-    buyPrice: 0,
-    price: 0,
+    category: '',
+    buyPrice: '',
+    price: '',
     hasWholesale: false,
-    wholesaleMinQty: 10,
-    wholesalePrice: 0,
-    wholesaleUnit: 'dus',
-    stock: 10,
-    minStock: 5,
-    unit: 'pcs',
+    wholesaleMinQty: '',
+    wholesalePrice: '',
+    wholesaleUnit: '',
+    stock: '',
+    minStock: '',
+    unit: '',
     isArchived: false,
     image: ''
   });
@@ -148,19 +148,19 @@ export default function DataManagement({
   const openAddModal = () => {
     setFormData({
       name: '',
-      barcode: `BRC-${Math.floor(100000 + Math.random() * 900000)}`,
-      category: categories[0]?.name || 'Umum',
-      buyPrice: 0,
-      price: 0,
+      barcode: '',
+      category: '',
+      buyPrice: '',
+      price: '',
       hasWholesale: false,
-      wholesaleMinQty: 10,
-      wholesalePrice: 0,
-      wholesaleUnit: 'dus',
-      stock: 20,
-      minStock: 5,
-      unit: 'pcs',
+      wholesaleMinQty: '',
+      wholesalePrice: '',
+      wholesaleUnit: '',
+      stock: '',
+      minStock: '',
+      unit: '',
       isArchived: false,
-      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=80'
+      image: ''
     });
     setIsAddModalOpen(true);
   };
@@ -208,8 +208,8 @@ export default function DataManagement({
     const newProd = {
       id: `PRD-${Date.now()}`,
       name: formData.name.trim(),
-      barcode: formData.barcode.trim(),
-      category: formData.category,
+      barcode: formData.barcode ? formData.barcode.trim() : '',
+      category: formData.category || (categories[0]?.name || 'Umum'),
       buyPrice: Number(formData.buyPrice) || 0,
       price: Number(formData.price) || 0,
       hasWholesale: Number(formData.wholesalePrice) > 0,
@@ -217,10 +217,10 @@ export default function DataManagement({
       wholesalePrice: Number(formData.wholesalePrice) || 0,
       wholesaleUnit: formData.wholesaleUnit || '',
       stock: Number(formData.stock) || 0,
-      minStock: Number(formData.minStock) || 5,
-      unit: formData.unit || 'pcs',
+      minStock: Number(formData.minStock) || 0,
+      unit: formData.unit ? formData.unit.trim() : 'pcs',
       isArchived: !!formData.isArchived,
-      image: formData.image.trim() || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=80',
+      image: formData.image ? formData.image.trim() : '',
       createdAt: new Date().toISOString()
     };
 
@@ -752,14 +752,13 @@ export default function DataManagement({
 
                 <div className="form-grid-2 mb-3">
                   <div className="form-group">
-                    <label>Barcode / SKU <span className="text-danger">*</span></label>
+                    <label>Barcode / SKU <span className="text-muted font-normal">(Opsional)</span></label>
                     <input 
                       type="text" 
-                      required 
                       value={formData.barcode}
                       onChange={e => setFormData({ ...formData, barcode: e.target.value })}
                       className="admin-input"
-                      placeholder="Contoh: BRC-100234"
+                      placeholder="Scan / ketik barcode (opsional)"
                     />
                   </div>
                   <div className="form-group">
@@ -769,6 +768,7 @@ export default function DataManagement({
                       onChange={e => setFormData({ ...formData, category: e.target.value })}
                       className="admin-select"
                     >
+                      <option value="">-- Pilih Kategori --</option>
                       {categories.length > 0 ? (
                         categories.map(c => (
                           <option key={c.id || c.name} value={c.name}>{c.name}</option>
@@ -801,7 +801,7 @@ export default function DataManagement({
                       value={formData.price}
                       onChange={e => setFormData({ ...formData, price: e.target.value })}
                       className="admin-input"
-                      placeholder="15000"
+                      placeholder="0"
                     />
                   </div>
                 </div>
@@ -842,7 +842,7 @@ export default function DataManagement({
                         value={formData.wholesaleMinQty || ''}
                         onChange={e => setFormData({ ...formData, wholesaleMinQty: e.target.value })}
                         className="admin-input"
-                        placeholder="10 / 12 / 40"
+                        placeholder="Contoh: 10"
                       />
                       <span className="text-2xs text-muted">Contoh: 10 {formData.unit || 'pcs'}</span>
                     </div>
@@ -853,7 +853,7 @@ export default function DataManagement({
                         value={formData.wholesaleUnit || ''}
                         onChange={e => setFormData({ ...formData, wholesaleUnit: e.target.value })}
                         className="admin-input"
-                        placeholder="Dus / Karung / Lusin"
+                        placeholder="Contoh: Dus / Lusin"
                       />
                       <span className="text-2xs text-muted">Opsional (cth: 1 Dus)</span>
                     </div>
@@ -869,16 +869,18 @@ export default function DataManagement({
                       value={formData.stock}
                       onChange={e => setFormData({ ...formData, stock: e.target.value })}
                       className="admin-input"
+                      placeholder="0"
                     />
                   </div>
                   <div className="form-group">
                     <label>Batas Stok Minim</label>
                     <input 
                       type="number" 
-                      min="1"
+                      min="0"
                       value={formData.minStock}
                       onChange={e => setFormData({ ...formData, minStock: e.target.value })}
                       className="admin-input"
+                      placeholder="0"
                     />
                   </div>
                   <div className="form-group">
@@ -906,13 +908,13 @@ export default function DataManagement({
                 </div>
 
                 <div className="form-group mb-3">
-                  <label>URL Gambar Produk</label>
+                  <label>URL Gambar Produk <span className="text-muted font-normal">(Opsional)</span></label>
                   <input 
                     type="url" 
                     value={formData.image}
                     onChange={e => setFormData({ ...formData, image: e.target.value })}
                     className="admin-input"
-                    placeholder="https://..."
+                    placeholder="https://... (Kosongkan jika tidak ada)"
                   />
                 </div>
               </div>
@@ -955,13 +957,13 @@ export default function DataManagement({
 
                 <div className="form-grid-2 mb-3">
                   <div className="form-group">
-                    <label>Barcode / SKU <span className="text-danger">*</span></label>
+                    <label>Barcode / SKU <span className="text-muted font-normal">(Opsional)</span></label>
                     <input 
                       type="text" 
-                      required 
                       value={formData.barcode}
                       onChange={e => setFormData({ ...formData, barcode: e.target.value })}
                       className="admin-input"
+                      placeholder="Scan / ketik barcode (opsional)"
                     />
                   </div>
                   <div className="form-group">
