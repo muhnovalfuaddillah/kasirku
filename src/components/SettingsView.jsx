@@ -300,7 +300,7 @@ export default function SettingsView({
                   type="password" 
                   value={pinForm} 
                   onChange={(e) => setPinForm(e.target.value)}
-                  placeholder="Contoh: 1234"
+                  placeholder="Masukkan PIN baru"
                   maxLength={6}
                   required
                 />

@@ -14,7 +14,7 @@ export default function AdminPinModal({ isOpen, onClose, onLoginSuccess, current
       setPinInput('');
       onLoginSuccess();
     } else {
-      setErrorMsg('PIN Admin salah! (Default PIN: 1234)');
+      setErrorMsg('PIN Admin salah! Silakan coba lagi.');
       setPinInput('');
     }
   };
@@ -58,14 +58,10 @@ export default function AdminPinModal({ isOpen, onClose, onLoginSuccess, current
             />
           </div>
 
-          {errorMsg ? (
+          {errorMsg && (
             <div className="pin-error-box">
               <IconAlert size={16} />
               <span>{errorMsg}</span>
-            </div>
-          ) : (
-            <div className="pin-hint-text">
-              PIN default: <strong>1234</strong>
             </div>
           )}
 

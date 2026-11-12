@@ -138,7 +138,7 @@ export default function SecurityView({
                   value={currentPinInput}
                   onChange={e => setCurrentPinInput(e.target.value)}
                   className="admin-input font-mono"
-                  placeholder="PIN lama (Default: 1234)"
+                  placeholder="Masukkan PIN lama"
                 />
               </div>
 
